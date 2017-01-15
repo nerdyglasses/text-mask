@@ -1,5 +1,7 @@
 import React from 'react'
 import createAutoCorrectedDatePipe from '../../addons/src/createAutoCorrectedDatePipe.js'
+import createAutoCorrectedDecimalsPipe from '../../addons/src/createAutoCorrectedDecimalsPipe.js'
+import createDecimalsNumberMask from '../../addons/src/createDecimalsNumberMask.js'
 import createNumberMask from '../../addons/src/createNumberMask.js'
 import emailMask from '../../addons/src/emailMask.js'
 import {placeholderChars, alphabetic, digit} from './constants.js'
@@ -19,6 +21,16 @@ const defaultValues = {
 export default map(
   (choice) => ({...defaultValues, ...choice}),
   [{
+    name: 'US dollar amount (2 decimals)',
+    pipe: createAutoCorrectedDecimalsPipe({ decimalLimit: 2 }),
+    mask: createDecimalsNumberMask({ allowNegative: false, decimalLimit: 2, requireDecimal: true }),
+    placeholder: 'Enter an amount'
+  }, {
+    name: 'US dollar amount (require decimal)',
+    pipe: createAutoCorrectedDecimalsPipe({ decimals: 2 }),
+    mask: createNumberMask({requireDecimal: true}),
+    placeholder: 'Enter an amount'
+  }, {
     name: 'US phone number',
     mask: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
     placeholder: '(555) 495-3947'
